@@ -13,23 +13,23 @@ return new class extends Migration
     {
         Schema::create('course_bulders', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('tag_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
+            $table->bigInteger('category_id')->unsigned();
             $table->text('title');
             $table->text('des');
-            $table->string('category', 100);
-            $table->string('tags', 100);
             $table->string('phone_no', 100);
             $table->integer('duration')->unsigned()->comment('in hours');
             $table->decimal('price', 8, 2)->unsigned();
-            $table->decimal('discount', 8, 2)->unsigned();
-            $table->decimal('discounted_price', 8, 2)->unsigned();
-            $table->boolean('status')->default(false);
+            $table->decimal('discount', 8, 2)->unsigned()->default(false)->nullable();
+            $table->decimal('discounted_price', 8, 2)->unsigned()->default(false)->nullable();
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_free')->default(false);
             $table->boolean('is_archive')->default(false);
-            $table->text('banner_image');
+            $table->text('banner_image')->nullable();
             $table->enum('type', [1, 2])->comment('1=course, he/she can upload content daily or weekly or etc', '2=bundle, all in one time');
             $table->text('slug');
+            $table->boolean('status')->default(false);  
             $table->timestamps();
         });
     }
