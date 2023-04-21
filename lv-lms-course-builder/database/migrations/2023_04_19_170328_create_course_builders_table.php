@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('course_builders', function (Blueprint $table) {
             $table->id();
+            $table->string('kyc')->unique()->comment('know your course');
             $table->bigInteger('tag_id')->unsigned();
             $table->bigInteger('user_id')->unsigned();
             $table->bigInteger('category_id')->unsigned();
@@ -26,6 +27,7 @@ return new class extends Migration
             $table->boolean('is_featured')->default(false);
             $table->boolean('is_free')->default(false);
             $table->boolean('is_archive')->default(false);
+            $table->boolean('is_published')->default(false);
             $table->text('banner_image')->nullable();
             $table->enum('type', [1, 2])->comment('1=course, he/she can upload content daily or weekly or etc', '2=bundle, all in one time');
             $table->text('slug');
