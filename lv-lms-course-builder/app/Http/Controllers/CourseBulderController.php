@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
+use App\Models\CourseBuilder;
 use App\Http\Requests\{StoreCourseBulderRequest, UpdateCourseBulderRequest};
 
 
@@ -20,6 +22,17 @@ class CourseBulderController extends Controller
      */
     public function store(StoreCourseBulderRequest $request)
     {
+        try {
+            $course = CourseBuilder::create($request->validated(),[
+                'slug' => Str::slug($request->title),
+            ]);
+            return response()->json([
+                "message" => "Course created successfully",
+                "data" => $course
+            ], 201);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
