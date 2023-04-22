@@ -46,15 +46,30 @@ class CourseBulderController extends Controller
      */
     public function show(string $id)
     {
-        //
+        $course = CourseBuilder::where('kyc',$id)->firstOrFail();
+
+        return response()->json([
+            "message" => "Course details",
+            "data" => new CourseBuilderResource($course)
+        ], JsonResponse::HTTP_OK);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateCourseBulderRequest $request, string $id)
+    public function update(UpdateCourseBulderRequest $request,CourseBuilderService $courseService, string $id) : JsonResponse
     {
-        //
+        try {
+            $course = $courseService->update((object) $request->all(), $id);
+
+            return response()->json([
+                "message" => "Course updated successfully",
+                "data" => new CourseBuilderResource($course)
+            ], JsonResponse::HTTP_OK);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
