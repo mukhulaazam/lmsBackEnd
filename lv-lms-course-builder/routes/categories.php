@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CourseBulderController;
+use App\Http\Controllers\CategoryController;
 
-Route::controller(CourseBulderController::class)
+Route::controller(CategoryController::class)
     ->prefix('course/')
     ->group(function () {
         Route::get('categories', 'index');

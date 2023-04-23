@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class UpdateCategoryRequest extends FormRequest
+class StoreSubCategoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,8 @@ class UpdateCategoryRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|max:255|unique:categories,title'
+            'title' => 'required|string|max:255|unique:sub_categories,title',
+            'category_id' => 'required|integer|exists:categories,id',
         ];
     }
 
@@ -36,20 +37,13 @@ class UpdateCategoryRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'title.required' => 'Title is required',
-            'title.max' => 'A title must be less than 255 characters'
-        ];
-    }
-
-    /**
-     * Get the attributes for the defined validation rules.
-     *
-     * @return array<string, string>
-     */
-    public function attributes(): array
-    {
-        return [
-            'title' => 'Title'
+            'title.required' => 'Sub Category Title is required',
+            'title.string' => 'Sub Category Title must be a string',
+            'title.max' => 'Sub Category Title must be less than 255 characters',
+            'title.unique' => 'Sub Category Title already exists',
+            'category_id.required' => 'Category is required',
+            'category_id.integer' => 'Category must be an integer',
+            'category_id.exists' => 'Category does not exist',
         ];
     }
 
