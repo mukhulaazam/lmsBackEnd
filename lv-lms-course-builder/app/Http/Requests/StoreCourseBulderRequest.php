@@ -26,7 +26,7 @@ class StoreCourseBulderRequest extends FormRequest
         return [
             "tag_id" => "required|integer",
             "user_id" => "required|integer",
-            "category_id" => "required|integer",
+            "category_id" => "required|integer:exists:categories,id",
             "title" => "required|string",
             "des" => "required|string",
             "phone_no" => "required|string",

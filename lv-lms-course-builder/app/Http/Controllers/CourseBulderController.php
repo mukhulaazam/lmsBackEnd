@@ -15,7 +15,7 @@ class CourseBulderController extends Controller
      */
     public function index():JsonResponse
     {
-        $course = CourseBuilder::where('user_id',request()->userId)->latest()->get();
+        $course = CourseBuilder::with(['category.subCategory'])->where('user_id',request()->userId)->latest()->get();
 
         return response()->json([
             "message" => "Course list",
