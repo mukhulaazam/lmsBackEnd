@@ -3,8 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\KeywordTag;
-use App\Http\Requests\StoreKeywordTagRequest;
-use App\Http\Requests\UpdateKeywordTagRequest;
+use Illuminate\Support\Str;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\{StoreKeywordTagRequest, UpdateKeywordTagRequest};
 
 class KeywordTagController extends Controller
 {
@@ -27,9 +28,23 @@ class KeywordTagController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreKeywordTagRequest $request)
+    public function store(StoreKeywordTagRequest $request) : JsonResponse
     {
-        //
+        try {
+            $tag = new KeywordTag;
+            $tag->title = $request->title;
+            $tag->slug = Str::slug($request->title);
+            $tag->description = $request->description;
+            $tag->save();
+
+            return response()->json([
+                'data' => $tag,
+                'message' => 'Keyword tag create successfull',
+            ], JsonResponse::HTTP_CREATED);
+
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**

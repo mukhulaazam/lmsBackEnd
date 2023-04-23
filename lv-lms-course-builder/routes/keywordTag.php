@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CourseBulderController;
+use App\Http\Controllers\KeywordTagController;
 
-Route::controller(CourseBulderController::class)
+Route::controller(KeywordTagController::class)
     ->prefix('tags/')
     ->group(function () {
         Route::get('', 'index');

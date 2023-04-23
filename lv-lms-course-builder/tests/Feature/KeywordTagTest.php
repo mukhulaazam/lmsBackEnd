@@ -9,12 +9,24 @@ use Tests\TestCase;
 class KeywordTagTest extends TestCase
 {
     /**
-     * A basic feature test example.
+     * @test
      */
-    public function test_example(): void
+    public function canCreateKeywordTag(): void
     {
-        $response = $this->get('/');
+        $this->withoutExceptionHandling();
 
-        $response->assertStatus(200);
+        $data = [
+            'title' => $this->faker->sentence,
+            'description' => $this->faker->paragraph,
+        ];
+
+        $this->post('api/v1/tags', $data)
+            ->assertStatus(201)
+            ->assertJson(compact('data'));
+        
+        $this->assertDatabaseHas('keyword_tags', [
+            'title' => $data['title'],
+            'description' => $data['description']
+            ]);
     }
 }
