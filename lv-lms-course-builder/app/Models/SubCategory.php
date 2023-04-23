@@ -2,10 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class CourseBuilder extends Model
+class SubCategory extends Model
 {
     use HasFactory;
 
@@ -13,6 +13,6 @@ class CourseBuilder extends Model
 
     public function category()
     {
-        return $this->belongsTo(Category::class);
+        return $this->belongsTo(Category::class)->where('is_active', true);
     }
 }
