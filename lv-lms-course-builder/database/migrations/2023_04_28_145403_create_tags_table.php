@@ -11,10 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('keyword_tags', function (Blueprint $table) {
+        Schema::create('tags', function (Blueprint $table) {
             $table->id();
             $table->string('title')->unique();
             $table->string('slug');
+            $table->boolean('is_active')->default(true);
             $table->text('description');
             $table->timestamps();
         });
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('keyword_tags');
+        Schema::dropIfExists('tags');
     }
 };

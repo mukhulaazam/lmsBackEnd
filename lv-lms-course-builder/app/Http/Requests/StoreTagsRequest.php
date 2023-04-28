@@ -6,7 +6,7 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\Exceptions\HttpResponseException;
 
-class StoreKeywordTagRequest extends FormRequest
+class StoreTagsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,22 +24,8 @@ class StoreKeywordTagRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required', 'string', 'max:255','unique:keyword_tags'],
-            'description' => ['required', 'string'],
-        ];
-    }
-
-    /**
-     * Get the error messages for the defined validation rules.
-     *
-     * @return array<string, string>
-     */
-    public function messages(): array
-    {
-        return [
-            'title.required' => 'A title is required',
-            'title.unique' => 'A title must be unique',
-            'description.required'  => 'A description is required',
+            'title' => 'required|string|max:255|unique:tags,title',
+            'description' => 'required|string|max:255'
         ];
     }
 
