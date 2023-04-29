@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\{Str,Carbon};
+use App\Http\Resources\CategoryResource;
 use App\Http\Requests\{StoreCategoryRequest,UpdateCategoryRequest};
 
 class CategoryController extends Controller
@@ -19,7 +20,7 @@ class CategoryController extends Controller
 
         return response()->json([
             'message' => 'Category list',
-            'data' => $categories
+            'data' => CategoryResource::collection($categories)
         ], JsonResponse::HTTP_OK);
     
     }
