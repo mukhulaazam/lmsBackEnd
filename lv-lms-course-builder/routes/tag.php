@@ -1,9 +1,9 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\KeywordTagController;
+use App\Http\Controllers\TagsController;
 
-Route::controller(KeywordTagController::class)
+Route::controller(TagsController::class)
     ->prefix('tags/')
     ->group(function () {
         Route::get('', 'index');

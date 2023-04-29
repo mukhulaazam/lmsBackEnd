@@ -2,19 +2,29 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\KeywordTag;
-use Illuminate\Support\Str;
+use App\Models\Tags;
 use Illuminate\Http\JsonResponse;
-use App\Http\Requests\{StoreKeywordTagRequest, UpdateKeywordTagRequest};
+use Illuminate\Support\{Str,Carbon};
+use App\Http\Requests\{StoreTagsRequest,UpdateTagsRequest};
 
-class KeywordTagController extends Controller
+
+class TagsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        try {
+            $tags = Tags::get();
+
+            return response()->json([
+                'message' => 'Tags fetched successfully',
+                'data' => $tags
+            ], 200);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
@@ -28,20 +38,19 @@ class KeywordTagController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreKeywordTagRequest $request) : JsonResponse
+    public function store(StoreTagsRequest $request)
     {
         try {
-            $tag = new KeywordTag;
+            $tag = new Tags;
             $tag->title = $request->title;
             $tag->slug = Str::slug($request->title);
             $tag->description = $request->description;
             $tag->save();
 
             return response()->json([
-                'data' => $tag,
-                'message' => 'Keyword tag create successfull',
-            ], JsonResponse::HTTP_CREATED);
-
+                'message' => 'Tag created successfully',
+                'data' => $tag
+            ], 201);
         } catch (\Throwable $th) {
             throw $th;
         }
@@ -50,7 +59,7 @@ class KeywordTagController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(KeywordTag $keywordTag)
+    public function show(Tags $tags)
     {
         //
     }
@@ -58,7 +67,7 @@ class KeywordTagController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(KeywordTag $keywordTag)
+    public function edit(Tags $tags)
     {
         //
     }
@@ -66,7 +75,7 @@ class KeywordTagController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateKeywordTagRequest $request, KeywordTag $keywordTag)
+    public function update(UpdateTagsRequest $request, Tags $tags)
     {
         //
     }
@@ -74,7 +83,7 @@ class KeywordTagController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(KeywordTag $keywordTag)
+    public function destroy(Tags $tags)
     {
         //
     }

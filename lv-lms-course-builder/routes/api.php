@@ -14,8 +14,8 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::prefix('/v1/')->group(function () {
+    include_once('tag.php');
     include_once('courses.php');
-    include_once('keywordTag.php');
     include_once('categories.php');
     include_once('subCategories.php');
 });
