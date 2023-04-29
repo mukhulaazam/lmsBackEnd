@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class UpdateTagsRequest extends FormRequest
 {
@@ -11,7 +13,7 @@ class UpdateTagsRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +24,16 @@ class UpdateTagsRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'title' => 'required|string|max:255|unique:tags,title',
+            'description' => 'required|string|max:255'
         ];
+    }
+
+    public function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'message'   => 'Validation errors',
+            'data'      => $validator->errors()
+        ], 422));
     }
 }
