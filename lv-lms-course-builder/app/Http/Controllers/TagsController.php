@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tags;
 use Illuminate\Http\JsonResponse;
+use App\Http\Resources\TagsResource;
 use Illuminate\Support\{Str,Carbon};
 use App\Http\Requests\{StoreTagsRequest,UpdateTagsRequest};
 
@@ -16,23 +17,15 @@ class TagsController extends Controller
     public function index()
     {
         try {
-            $tags = Tags::get();
+            $tags = Tags::latest()->get();
 
             return response()->json([
                 'message' => 'Tags fetched successfully',
-                'data' => $tags
+                'data' => TagsResource::collection($tags)
             ], 200);
         } catch (\Throwable $th) {
             throw $th;
         }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
     }
 
     /**
@@ -59,25 +52,39 @@ class TagsController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tags $tags)
+    public function show($slug)
     {
-        //
-    }
+        try {
+            $tag = Tags::where('slug', $slug)->first();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Tags $tags)
-    {
-        //
+            return response()->json([
+                'message' => 'Tag fetched successfully',
+                'data' => $tag
+            ], 200);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateTagsRequest $request, Tags $tags)
+    public function update(UpdateTagsRequest $request, $slug)
     {
-        //
+        try {
+            $tag = Tags::where('slug', $slug)->first();
+            $tag->title = $request->title;
+            $tag->slug = Str::slug($request->title);
+            $tag->description = $request->description;
+            $tag->save();
+
+            return response()->json([
+                'message' => 'Tag updated successfully',
+                'data' => $tag
+            ], 200);
+        } catch (\Throwable $th) {
+            throw $th;
+        }
     }
 
     /**
