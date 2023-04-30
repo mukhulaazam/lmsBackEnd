@@ -1,7 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CourseBulderController;
+use App\Http\Controllers\{CourseBulderController, CourseLectureController};
 
 Route::controller(CourseBulderController::class)
     ->prefix('courses/')
@@ -13,3 +13,12 @@ Route::controller(CourseBulderController::class)
         Route::delete('/{id}', 'destroy');
     });
 
+Route::controller(CourseLectureController::class)
+    ->prefix('course/')
+    ->group(function () {
+        Route::get('lectures', 'index');
+        Route::post('lectures', 'store');
+        Route::get('lectures/{id}', 'show');
+        Route::put('lectures/{id}', 'update');
+        Route::delete('lectures/{id}', 'destroy');
+    });
