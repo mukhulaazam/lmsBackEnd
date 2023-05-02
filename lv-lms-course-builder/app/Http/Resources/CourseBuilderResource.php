@@ -3,8 +3,8 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Request;
-use App\Http\Resources\CategoryResource;
 use Illuminate\Http\Resources\Json\JsonResource;
+use App\Http\Resources\{CategoryResource,CourseLectureResource};
 
 class CourseBuilderResource extends JsonResource
 {
@@ -35,7 +35,7 @@ class CourseBuilderResource extends JsonResource
             'banner_image' => $this->banner_image,
             'type' => $this->type,
             'status' => $this->status,
-
+            'category' => new CategoryResource($this->category),
             'sections' => $this->sections->map(function ($section) {
                 return [
                     'id' => $section->id,
@@ -47,9 +47,10 @@ class CourseBuilderResource extends JsonResource
                     'is_published' => $section->is_published,
                     'order' => $section->order,
                     'is_custom_ordering' => $section->is_custom_ordering,
+                    'lectures' => CourseLectureResource::collection($section->lectures)
                 ];
             }),
-            'category' => $this->category,
+            
         ];
     }
 }

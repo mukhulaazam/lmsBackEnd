@@ -18,8 +18,7 @@ class SubCategoryResource extends JsonResource
             'id' => $this->id,
             'title' => $this->title,
             'slug' => $this->slug,
-            'is_active' => $this->is_active,
-            'category' => $this->category
+            'is_active' => $this->is_active
         ];
     }
 }

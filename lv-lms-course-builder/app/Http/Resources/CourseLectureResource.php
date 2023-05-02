@@ -14,6 +14,20 @@ class CourseLectureResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->id,
+            'section_id' => $this->section_id,
+            'title' => $this->title,
+            'description' => $this->description,
+            'is_free' => $this->is_free,
+            'is_preview' => $this->is_preview,
+            'is_published' => $this->is_published,
+            'order' => $this->order,
+            'is_custom_ordering' => $this->is_custom_ordering,
+            'video_url' => $this->video_url,
+            'video_type' => $this->video_type,
+            'video_duration' => $this->video_duration,
+            'video_thumbnail' => $this->video_thumbnail,
+        ];
     }
 }
