@@ -1,3 +1,2 @@
-## Learning Managemnt System 
-
-this will be ready for production make it free
+## Learning Managemnt System (LMS)
+This will be an open source production ready application.
