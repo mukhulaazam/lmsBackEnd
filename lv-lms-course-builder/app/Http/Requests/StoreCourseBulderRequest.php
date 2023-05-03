@@ -38,7 +38,9 @@ class StoreCourseBulderRequest extends FormRequest
             "is_free" => "required|boolean",
             "is_archive" => "required|boolean",
             "banner_image" => "required|string",
-            "type" => "required|integer"
+            "type" => "required|integer",
+            "sections" => "required|array",
+            "sections.*.title" => "required|string|unique:sections,title",
         ];
     }
 
@@ -74,7 +76,10 @@ class StoreCourseBulderRequest extends FormRequest
             "banner_image.required" => "Banner image is required",
             "banner_image.string" => "Banner image must be a string",
             "type.required" => "Type is required",
-            "type.integer" => "Type must be an integer"
+            "type.integer" => "Type must be an integer",
+            "sections.*.title.required" => "Section title is required",
+            "sections.*.title.string" => "Section title must be a string",
+            "sections.*.title.distinct" => "Section title must be unique",
         ];
     }
 
