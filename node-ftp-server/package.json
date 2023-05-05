@@ -1,0 +1,19 @@
+{
+  "name": "node-ftp-server",
+  "version": "1.0.0",
+  "description": "make a local ftp server for store all file and videos keep storing into local",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "author": "Devmam",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
