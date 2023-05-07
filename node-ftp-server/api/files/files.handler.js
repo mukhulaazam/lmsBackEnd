@@ -1,10 +1,12 @@
 const fs = require('fs');
+const pathNor = require('path');
 const multer = require('multer');
 
 let maxSize = 5 * 1000 * 1000; // 5MB
 
 
 var storagePath = multer.diskStorage({
+    // @des :: setup file destination
     destination: function (req, file, cb) {
         const basePath = 'uploads';
         if(!fs.existsSync(basePath)){
@@ -17,18 +19,23 @@ var storagePath = multer.diskStorage({
             fs.mkdirSync(path, { recursive: true });
         }
         cb(null, path);
+    },
+    // @des :: setup file name
+    filename: function (req, file, cb) {
+        let fileName = file.originalname;
+        // generate unique file name
+        const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
+        if(fileName){
+            fileName = `${uniqueSuffix}${fileName}`;
+        }
+        cb(null, fileName);
     }   
 });
-
-var filename = function (req, file, cb) {
-    cb(null, file.originalname);
-}
 
 
 // des :: setup upload file destination
 const uploadSingleFileDestination = multer({
     storage: storagePath,
-    filename: filename,
     limits: { fileSize: maxSize },
 }).single('file');
 
@@ -52,10 +59,9 @@ exports.uploadSingleFile = async (req, res) => {
             } else if (err) {
                 return res.status(500).json(err);
             }
-            // console.log(req);
             return res.status(200).json({
                 msg: `File uploaded successfully!`,
-                fileName: req.file,
+                fileName: req.file.path,
             });
         });
     } catch (err) {
