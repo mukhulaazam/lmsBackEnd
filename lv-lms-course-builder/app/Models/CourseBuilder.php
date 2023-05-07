@@ -15,4 +15,9 @@ class CourseBuilder extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function sections()
+    {
+        return $this->hasMany(Section::class);
+    }
 }

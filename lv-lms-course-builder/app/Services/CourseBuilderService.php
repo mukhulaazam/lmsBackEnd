@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Models\CourseBuilder;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\{Str,Carbon};
 
 class CourseBuilderService
@@ -9,6 +10,8 @@ class CourseBuilderService
     public function store($data): CourseBuilder
     {
         try {
+            DB::beginTransaction();
+
             $course = new CourseBuilder;
             $course->tag_id = $data->tag_id;
             $course->kyc = now()->format('Y') . Str::random(13) . time(). now()->format('m');
@@ -29,8 +32,17 @@ class CourseBuilderService
             $course->type = $data->type;
             $course->status = config('status.courseBuilder.submitted');
             $course->save();
+
+            if ($course) {
+                $course->sections()->createMany($data->sections);
+            }
+            
+            DB::commit();
+
             return $course;
+
         } catch (\Throwable $th) {
+            DB::rollBack();
             throw $th;
         }
     }
@@ -38,6 +50,8 @@ class CourseBuilderService
     public function update($data, string $id): CourseBuilder
     {
         try {
+            DB::beginTransaction();
+
             $course = CourseBuilder::where('kyc',$id)->firstOrFail();
 
             $course->tag_id = $data->tag_id;
@@ -57,7 +71,14 @@ class CourseBuilderService
             $course->type = $data->type;
             $course->status = config('status.courseBuilder.submitted');
             $course->save();
+
+            if ($course) {
+                $course->sections()->delete();
+                $course->sections()->createMany($data->sections);
+            }
             
+            DB::commit();
+
             return $course;
         } catch (\Throwable $th) {
             throw $th;

@@ -25,7 +25,6 @@ class UpdateCourseBulderRequest extends FormRequest
     {
         return [
             "tag_id" => "required|integer",
-            "user_id" => "required|integer",
             "category_id" => "required|integer:exists:categories,id",
             "title" => "required|string",
             "des" => "required|string",
@@ -38,7 +37,9 @@ class UpdateCourseBulderRequest extends FormRequest
             "is_free" => "required|boolean",
             "is_archive" => "required|boolean",
             "banner_image" => "required|string",
-            "type" => "required|integer"
+            "type" => "required|integer",
+            "sections" => "required|array",
+            "sections.*.title" => "required|string|unique:sections,title",
         ];
     }
 
@@ -47,8 +48,6 @@ class UpdateCourseBulderRequest extends FormRequest
         return [
             "tag_id.required" => "Tag is required",
             "tag_id.integer" => "Tag must be an integer",
-            "user_id.required" => "User is required",
-            "user_id.integer" => "User must be an integer",
             "category_id.required" => "Category is required",
             "category_id.integer" => "Category must be an integer",
             "title.required" => "Title is required",
@@ -74,7 +73,12 @@ class UpdateCourseBulderRequest extends FormRequest
             "banner_image.required" => "Banner image is required",
             "banner_image.string" => "Banner image must be a string",
             "type.required" => "Type is required",
-            "type.integer" => "Type must be an integer"
+            "type.integer" => "Type must be an integer",
+            "sections.required" => "Sections is required",
+            "sections.array" => "Sections must be an array",
+            "sections.*.title.required" => "Section title is required",
+            "sections.*.title.string" => "Section title must be a string",
+            "sections.*.title.distinct" => "Section title must be unique",
         ];
     }
 
