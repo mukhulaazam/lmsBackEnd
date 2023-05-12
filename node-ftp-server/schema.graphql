@@ -1,8 +1,7 @@
 type Video {
   id: ID!
   title: String!
-  description: String
-  url: String!
+  filePath: String
 }
 
 type Query {
@@ -11,5 +10,5 @@ type Query {
 }
 
 type Mutation {
-  addVideo(title: String!, description: String, url: String!): Video
+  addVideo(title: String!, filePath: String): Video
 }

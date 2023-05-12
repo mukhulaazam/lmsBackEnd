@@ -1,6 +1,9 @@
 const express = require('express');
 const fileRoutes = require('./api/files/files.route');
 
+const { graphqlHTTP } = require('express-graphql');
+const { buildSchema } = require('graphql');
+
 // @des :: Create express app
 const app = express();
 
@@ -12,7 +15,11 @@ app.use(express.urlencoded({ extended: true }));
 app.get('/', (req, res) => {
     res.send(`File Server ready works!`);
 });
-
+app.use('/graphql', graphqlHTTP({
+    schema: schema,
+    rootValue: root,
+    graphiql: true,
+}));
 // @des :: routes
 app.use('/api/v1/files', fileRoutes);
 
