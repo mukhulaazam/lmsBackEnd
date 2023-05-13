@@ -79,15 +79,15 @@ class CourseLectureService
     {
         try {
             $file = $data->video_thumbnail;
-            $apiEndPoint = 'http://127.0.0.1:5000/api/v1/files/single?folder_name=courseLecture';
+            $apiEndPoint = 'http://127.0.0.1:5000/api/v1/files/single?folderName=courseLecture';
             // return $res;
             // upload file to node server 
-            $response = Http::withHeaders([
+            $res = Http::withHeaders([
                 'Content-Type' => 'multipart/form-data',
             ])->attach('file', $file)
             ->post($apiEndPoint);
 
-            return $response;
+            return $res;
             
         } catch (\Throwable $th) {
             throw $th;
