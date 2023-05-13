@@ -3,8 +3,8 @@
 namespace App\Services;
 
 use App\Models\CourseLecture;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\{Str,Carbon};
+use Illuminate\Support\Facades\{DB,Http};
 
 class CourseLectureService
 {
@@ -70,6 +70,25 @@ class CourseLectureService
             DB::commit();
             return $lecture;
         
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
+
+    public function sendFileToNodeServer($data)
+    {
+        try {
+            $file = $data->video_thumbnail;
+            $apiEndPoint = 'http://127.0.0.1:5000/api/v1/files/single?folderName=courseLecture';
+            // return $res;
+            // upload file to node server 
+            $res = Http::withHeaders([
+                'Content-Type' => 'multipart/form-data',
+            ])->attach('file', $file)
+            ->post($apiEndPoint);
+
+            return $res;
+            
         } catch (\Throwable $th) {
             throw $th;
         }

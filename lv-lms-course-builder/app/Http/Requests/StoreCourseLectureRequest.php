@@ -28,9 +28,8 @@ class StoreCourseLectureRequest extends FormRequest
             'course_builder_id' => ['required', 'integer', 'exists:course_builders,id'],
             'section_id' => ['required', 'integer', 'exists:sections,id'],
             'description' => ['nullable', 'string'],
-            'video_url' => ['required', 'string'],
             'video_duration' => ['required', 'integer'],
-            'video_thumbnail' => ['required', 'string'],
+            'video_thumbnail' => ['required', 'mimes:jpeg,jpg,png,gif'],
         ];
     }
 
@@ -45,7 +44,6 @@ class StoreCourseLectureRequest extends FormRequest
             'title.required' => 'Title is required',
             'course_builder_id.required' => 'Course builder id is required',
             'section_id.required' => 'Section id is required',
-            'video_url.required' => 'Video url is required',
             'video_duration.required' => 'Video duration is required',
             'video_thumbnail.required' => 'Video thumbnail is required',
         ];
