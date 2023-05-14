@@ -25,9 +25,24 @@ class CourseLectureController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreCourseLectureRequest $request, CourseLectureService $courseLectureService): JsonResponse
+    public function store(StoreCourseLectureRequest $request, CourseLectureService $courseLectureService) : JsonResponse
     {
         try {
+            $file = $request->file('video_thumbnail');
+
+            if($file) {
+
+                $response = $courseLectureService->sendFileToNodeServer((object) $request->all());
+
+                return response()->json([
+                    'message'   => 'Lecture Video uploaded successfully',
+                    'data'      => $response,
+                ], JsonResponse::HTTP_CREATED);
+
+                $request->merge([
+                    'video_thumbnail' => $response->data->file_path,
+                ]);
+            }
             $courseLecture = $courseLectureService->store((object) $request->all());
 
             return response()->json([

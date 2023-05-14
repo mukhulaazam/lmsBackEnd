@@ -15,6 +15,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return response()->json([
-        'message' => 'Notification Service'
-    ]);
+        'message' => 'Notification Service live'
+    ], 200);
 });
