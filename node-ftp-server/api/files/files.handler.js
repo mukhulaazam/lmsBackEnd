@@ -54,6 +54,7 @@ exports.getFile = async (req, res) => {
 exports.uploadSingleFile = async (req, res) => {
     try {
         uploadSingleFileDestination(req, res, function (err) {
+            console.log(req);
             if (err instanceof multer.MulterError) {
                 return res.status(500).json(err);
             } else if (err) {
