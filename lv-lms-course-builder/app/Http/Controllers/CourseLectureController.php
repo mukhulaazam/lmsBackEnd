@@ -29,9 +29,9 @@ class CourseLectureController extends Controller
     {
         try {
             $file = $request->file('video_thumbnail');
-            // dd($file);
+
             if($file) {
-                // send the file to node ftp server localhost:5000/api/v1/files/single?folder_name=test
+
                 $response = $courseLectureService->sendFileToNodeServer((object) $request->all());
 
                 return response()->json([

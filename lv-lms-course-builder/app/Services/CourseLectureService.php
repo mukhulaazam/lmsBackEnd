@@ -82,10 +82,19 @@ class CourseLectureService
             $apiEndPoint = 'http://127.0.0.1:5000/api/v1/files/single?folderName=courseLecture';
             // return $res;
             // upload file to node server 
-            $res = Http::withHeaders([
-                'Content-Type' => 'multipart/form-data',
-            ])->attach('file', $file)
-            ->post($apiEndPoint);
+            $client = new \GuzzleHttp\Client();
+            $res = $client->request('POST', $apiEndPoint,
+                [
+                    'multipart' => [
+                        [
+                            'name' => 'file',
+                            'contents' => fopen($file, 'r'),
+                            'filename' => basename($file)
+                        ]
+                    ]
+                ]);
+            $res = json_decode($res->getBody()->getContents());
+
 
             return $res;
             
