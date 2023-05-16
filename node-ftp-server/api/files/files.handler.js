@@ -22,6 +22,7 @@ var storagePath = multer.diskStorage({
     },
     // @des :: setup file name
     filename: function (req, file, cb) {
+        console.log('Testing',file);
         let fileName = file.originalname;
         // generate unique file name
         const uniqueSuffix = Date.now() + Math.round(Math.random() * 1e9);
