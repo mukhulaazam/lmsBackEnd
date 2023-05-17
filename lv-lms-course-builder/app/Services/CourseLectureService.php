@@ -10,6 +10,7 @@ class CourseLectureService
 {
     public function store($data): CourseLecture
     {
+        return $data;
         try {
             DB::beginTransaction();
 
@@ -80,24 +81,15 @@ class CourseLectureService
         try {
             $file = $data->video_thumbnail;
 
-            $apiEndPoint = 'http://127.0.0.1:5000/api/v1/files/single?folderName=courseLecture';
+            // how to send file to node server at url http://127.0.0.1:5000/api/v1/files/single?folderName=courseLecture
+            $response = Http::attach(
+                'file', file_get_contents($file), $file->getClientOriginalName()
+            )->post('http://127.0.0.1:5000/api/v1/files/single?folderName=courseLecture');
 
-            $client = new \GuzzleHttp\Client();
-            $res = $client->request('POST', $apiEndPoint,
-                [
-                    'multipart' => [
-                        [
-                            'name'     => 'file',
-                            'contents' => fopen($file, 'r'),
-                        ],
-                    ],
-                
-                ]);
-            $res = json_decode($res->getBody()->getContents());
+            return $response->json();
 
 
-            return $res;
-            
+
         } catch (GuzzleException $e) {
             throw $e;
         }

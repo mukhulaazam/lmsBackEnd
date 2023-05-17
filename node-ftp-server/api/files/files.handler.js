@@ -61,7 +61,7 @@ exports.uploadSingleFile = async (req, res) => {
             } else if (err) {
                 return res.status(500).json(err);
             }
-            return res.status(200).json({
+            return res.status(201).json({
                 msg: `File uploaded successfully!`,
                 fileName: req.file.path,
             });

@@ -29,26 +29,19 @@ class CourseLectureController extends Controller
     {
         try {
             $file = $request->file('video_thumbnail');
-            // dd($file);
-            if($file) {
-                // send the file to node ftp server localhost:5000/api/v1/files/single?folder_name=test
-                $response = $courseLectureService->sendFileToNodeServer((object) $request->all());
+            if($file) {            
+                $res = $courseLectureService->sendFileToNodeServer((object) $request->all());
+                if ($res->status == 201) {
+                    $request->merge(['videoThumbnail' => $res['fileName']]);
 
-                return response()->json([
-                    'message'   => 'Lecture Video uploaded successfully',
-                    'data'      => $response,
-                ], JsonResponse::HTTP_CREATED);
+                    $courseLecture = $courseLectureService->store((object) $request->all());
 
-                $request->merge([
-                    'video_thumbnail' => $response->data->file_path,
-                ]);
+                    return response()->json([
+                        'message'   => 'Course lecture created successfully',
+                        'data'      => $request->all(),
+                    ], JsonResponse::HTTP_CREATED);
+                }
             }
-            $courseLecture = $courseLectureService->store((object) $request->all());
-
-            return response()->json([
-                'message'   => 'Course lecture created successfully',
-                'data'      => $courseLecture,
-            ], JsonResponse::HTTP_CREATED);
         } catch (\Throwable $th) {
             throw $th;
         }
