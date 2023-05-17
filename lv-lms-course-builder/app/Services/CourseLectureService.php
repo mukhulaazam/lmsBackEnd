@@ -10,7 +10,6 @@ class CourseLectureService
 {
     public function store($data): CourseLecture
     {
-        return $data;
         try {
             DB::beginTransaction();
 
@@ -21,9 +20,9 @@ class CourseLectureService
             $lecture->course_builder_id = $data->course_builder_id;
             $lecture->section_id = $data->section_id;
             $lecture->des = $data->des;
-            $lecture->video_url = $data->video_url;
+            $lecture->video_url = $data->video_url ?? 0;
             $lecture->video_duration = $data->video_duration;
-            $lecture->video_thumbnail = $data->video_thumbnail;
+            $lecture->video_thumbnail = $data->videoThumbnail;
             $lecture->is_free = $data->is_free ?? false;
             $lecture->is_published = $data->is_published ?? false;
             $lecture->is_preview = $data->is_preview ?? false;
@@ -76,19 +75,17 @@ class CourseLectureService
         }
     }
 
+    // @des :: temporary file upload system
     public function sendFileToNodeServer($data)
     {
         try {
             $file = $data->video_thumbnail;
 
-            // how to send file to node server at url http://127.0.0.1:5000/api/v1/files/single?folderName=courseLecture
             $response = Http::attach(
                 'file', file_get_contents($file), $file->getClientOriginalName()
             )->post('http://127.0.0.1:5000/api/v1/files/single?folderName=courseLecture');
 
             return $response->json();
-
-
 
         } catch (GuzzleException $e) {
             throw $e;
