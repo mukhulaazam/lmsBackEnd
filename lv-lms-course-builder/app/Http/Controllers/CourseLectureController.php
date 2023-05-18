@@ -31,16 +31,20 @@ class CourseLectureController extends Controller
             $file = $request->file('video_thumbnail');
             if($file) {            
                 $res = $courseLectureService->sendFileToNodeServer((object) $request->all());
-                if ($res->status == 201) {
+                if ($res) {
                     $request->merge(['videoThumbnail' => $res['fileName']]);
 
                     $courseLecture = $courseLectureService->store((object) $request->all());
 
                     return response()->json([
                         'message'   => 'Course lecture created successfully',
-                        'data'      => $request->all(),
+                        'data'      => $courseLecture,
                     ], JsonResponse::HTTP_CREATED);
                 }
+
+                return response()->json([
+                    'message'   => 'Course lecture created failed',
+                ], JsonResponse::HTTP_BAD_REQUEST);
             }
         } catch (\Throwable $th) {
             throw $th;

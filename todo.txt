@@ -1,3 +1,8 @@
-1. Docker 
-2. Kafka and Event Bus
-3. oracle
+NotificationEventBus = [
+    setup = [
+        setup event Bus
+        event fire and dispatch
+        test 
+        then service to service implementation
+    ]
+]
